@@ -29,6 +29,7 @@ class Game:
         self.points = 0
         self.death_count = 0
         self.running = True
+        self.menu_play = pygame.mixer.Sound("dino_runner/components/sound/menu.mp3")
 
 
 
@@ -41,8 +42,9 @@ class Game:
         # Game loop: events - update - draw
         self.obstacle_manager = ObstacleManage()
         self.player_heart_manager = PlayerHeartManager()
-        self.power_up_manager.reser_power_ups(self.points)
+        self.power_up_manager.resert_power_ups(self.points)
         self.playing = True
+        
         while self.playing:
             self.events()
             self.update()
@@ -82,6 +84,7 @@ class Game:
         white_color = (255, 255, 255)
         self.screen.fill(WHITE_COLOR)
         self.print_menu_elements()
+        self.menu_play.play()
 
         pygame.display.update()
 
@@ -91,10 +94,12 @@ class Game:
     def print_menu_elements(self):
         half_screen_height = SCREEN_HEIGHT // 2
         half_screen_width = SCREEN_WIDTH // 2
+        
 
         if self.death_count == 0:
             text, text_rext = text_utils.get_centered_message('Press any key to start')
             self.screen.blit(text, text_rext)
+
         elif self.death_count > 0:
             text, text_rect = text_utils.get_centered_message('Press any key to restart')
             score, score_rect = text_utils.get_centered_message('Your score is: ' + str(self.points), height=half_screen_height + 50)
@@ -102,7 +107,7 @@ class Game:
             self.screen.blit(score, score_rect)
             self.screen.blit(text, text_rect)
             self.screen.blit(death, death_rect)
-            #self.screen.blit(RUNNING[0], (half_screen_width  - 20, half_screen_height - 20))
+            self.screen.blit(RUNNING[0], (half_screen_width  - 70, half_screen_height - 150))
 
     def handle_key_events_on_menu(self):
         for event in pygame.event.get():
@@ -113,9 +118,11 @@ class Game:
                 pygame.quit()
             if event.type == pygame.KEYDOWN:
                 self.run()
+                
 
     def score(self):
         self.points += 1 
+        self.menu_play.stop()
 
         if self.points % 100 == 0:
             self.game_speed += 1

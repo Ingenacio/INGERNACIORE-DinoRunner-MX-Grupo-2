@@ -41,7 +41,7 @@ class PowerUpManager:
             power_ups.draw(screen)
 
 
-    def reser_power_ups(self, points):
+    def resert_power_ups(self, points):
         self.power_ups = []
         self.points = points
         self.when_appears = random.randint(200,300) + self.points

@@ -12,12 +12,16 @@ class ObstacleManage():
 
     def update(self, game):
         if len(self.obstacles) == 0:
-            cactus_size = random.randint(0,3)
+            cactus_size = random.randint(0,1)
             if cactus_size == 0:
-                self.obstacles.append(Cactus(LARGE_CACTUS))
+                Large_cactus = (Cactus(LARGE_CACTUS))
+                Large_cactus.rect.y = 310
+                self.obstacles.append(Large_cactus)
             elif cactus_size == 3:
                 self.obstacles.append(bird(BIRD))
             else:
+                small_cactus = Cactus(SMALL_CACTUS)
+                small_cactus.rect.y = 325
                 self.obstacles.append(Cactus(SMALL_CACTUS))
         
         
